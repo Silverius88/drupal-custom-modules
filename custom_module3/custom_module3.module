@@ -1,0 +1,59 @@
+<?php
+/**
+ * @file
+ * Module file for custom_module3.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function custom_module3_menu() {
+  $items = array();
+
+  $items['custom_module3'] = array(
+    'title' => 'custom module3 menu',
+    'page callback' => '_custom_module3_menu_page',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function custom_module3_theme() {
+  return array(
+    'custom_module3_page_content' => array(
+      'variables' => array('page_content' => NULL),
+    ),
+  );
+}
+
+/**
+ * Returns HTML for a custom_module3_page_content.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - page_content: content text.
+ */
+function theme_custom_module3_page_content($variables) {
+  $output = '';
+  if (isset($variables['page_content'])) {
+    $output .= '<p>'.$variables['page_content'].'</p>';
+  }
+  return $output;
+}
+
+/**
+ * Page callback custom_module3.
+ */
+function _custom_module3_menu_page() {
+  $p_content = t('This is test page content for custom module3 page');
+  return theme('custom_module3_page_content', array('page_content' => $p_content));
+}
+
+
+
+
+

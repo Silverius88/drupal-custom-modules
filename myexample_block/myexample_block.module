@@ -1,0 +1,64 @@
+<?php
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function myexample_block_block_info() {
+    $blocks['myexample_block_test'] = array(
+        // info: The name of the block.
+        'info' => t('My example block'),
+        // Block caching options (per role, per user, etc.)
+        // DRUPAL_CACHE_PER_ROLE is the default.
+        'cache' => DRUPAL_CACHE_PER_ROLE,
+    );
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function myexample_block_block_view($delta = '') {
+    // The $delta parameter tells us which block is being requested.
+    switch ($delta) {
+        case 'myexample_block_test':
+            $block['subject'] = t("uppercase this please");
+            $block['content'] = _myexample_block_test_content();
+            break;
+    }
+    return $block;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function myexample_block_block_configure($delta = '') {
+    $form = array();
+    if ($delta == 'myexample_block_test') {
+        $form['myexample_block'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Test myexample block'),
+            '#default_value' => variable_get('myexample_block', 14298),
+            '#maxlength' => 5,
+            '#element_validate' => array('element_validate_integer_positive'),
+        );
+    }
+    return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function myexample_block_block_save($delta = '', $edit = array()) {
+    if ($delta == 'myexample_block_test') {
+        variable_set('myexample_block', $edit['myexample_block']);
+    }
+}
+
+
+function _myexample_block_test_content() {
+    $myexample_block = variable_get('myexample_block', 14298);
+    return $myexample_block;
+}

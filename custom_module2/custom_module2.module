@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Module file for custom_module2.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter() for custom_module_form().
+ */
+function custom_module2_form_custom_module_form_alter(&$form, &$form_state, $form_id) {
+  $form['textfield3'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Textfield3'),
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+    '#submit' => array('custom_module2_form_custom_submit'),
+    '#weight' => 2,
+  );
+
+  return $form;
+}
+
+
+function custom_module2_form_custom_submit($form, &$form_state) {
+  drupal_set_message(t('Submited data: "textfield1=@t1, textfield2=@t2"',
+    array(
+      '@t1' => $form_state['values']['textfield1'],
+      '@t2' => $form_state['values']['textfield2'],
+    )
+  ));
+  drupal_set_message(t('Submited data: "textfield3=@t3"',
+    array(
+      '@t3' => $form_state['values']['textfield1'],
+    )
+  ));
+}
+
+

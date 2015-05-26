@@ -1,0 +1,89 @@
+<?php
+/**
+ * @file
+ * Module file for custom_module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function custom_module_menu() {
+  $items = array();
+
+  $items['custom_module'] = array(
+    'title' => 'custom module menu',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('custom_module_form'),
+    'access callback' => TRUE,
+    'description' => 'Custom module menu',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Define a form.
+ */
+function custom_module_form($form, &$form_state) {
+  $form['textfield1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Textfield1'),
+    '#required' => TRUE,
+  );
+  $form['textfield2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Textfield2'),
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  return $form;
+}
+
+function custom_module_form_submit($form, &$form_state) {
+  drupal_set_message(t('Submited data: "textfield1=@t1, textfield2=@t2"',
+    array(
+      '@t1' => $form_state['values']['textfield1'],
+      '@t2' => $form_state['values']['textfield2'],
+    )
+  ));
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function custom_module_block_info() {
+  $blocks['custom_module_block1'] = array(
+    'info' => t('My custom block1'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ */
+function custom_module_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'custom_module_block1':
+      $block['subject'] = t("Custom module block");
+      //$block['content'] = drupal_get_form('custom_module_form');
+      //$block['content'] = 'custom_module_form';
+      $block['content'] = _custom_module_content();
+      break;
+  }
+  return $block;
+}
+
+function _custom_module_content() {
+  $custom_module_form = drupal_get_form('custom_module_form');
+  return render($custom_module_form);
+}
+
+
+
+

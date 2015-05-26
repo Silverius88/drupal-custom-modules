@@ -1,0 +1,4 @@
+name = custom module3
+description = my custom mobule theming
+version = 7.x-1.x
+core = 7.x

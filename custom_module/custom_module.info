@@ -1,0 +1,4 @@
+name = custom module
+description = my custom mobule
+version = 7.x-1.x
+core = 7.x
